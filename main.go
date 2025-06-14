@@ -78,20 +78,12 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	switch strings.ToLower(args[0]) {
-	case "botinfo":
-		botInfoCommand(s, m)
-	case "ping":
-		pingCommand(s, m)
-	default:
-		s.ChannelMessageSend(m.ChannelID, "Unknown command. Try `!help`.")
+	cmdName := strings.ToLower(args[0])
+	cmdArgs := args[1:]
+
+	if handler, exists := CommandRegistry[cmdName]; exists {
+		handler(s, m, cmdArgs)
+	} else {
+		s.ChannelMessageSend(m.ChannelID, "Unknown command. Try `l!help`.")
 	}
-}
-
-func botInfoCommand(s *discordgo.Session, m *discordgo.MessageCreate) {
-	s.ChannelMessageSend(m.ChannelID, "LinguaBot v1.0 — Your friendly language learning companion!")
-}
-
-func pingCommand(s *discordgo.Session, m *discordgo.MessageCreate) {
-	s.ChannelMessageSend(m.ChannelID, "Pong!")
 }
