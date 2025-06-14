@@ -83,13 +83,11 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		botInfoCommand(s, m)
 	case "ping":
 		pingCommand(s, m)
-	// add more command handlers here or dispatch to commands.go
 	default:
 		s.ChannelMessageSend(m.ChannelID, "Unknown command. Try `!help`.")
 	}
 }
 
-// Stub commands to be moved/expanded in commands.go
 func botInfoCommand(s *discordgo.Session, m *discordgo.MessageCreate) {
 	s.ChannelMessageSend(m.ChannelID, "LinguaBot v1.0 — Your friendly language learning companion!")
 }
